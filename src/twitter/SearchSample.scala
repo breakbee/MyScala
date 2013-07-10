@@ -20,10 +20,7 @@ object SearchSample extends App {
   // 取得件数
   println("Size : " + list2.size)
   // 該当件数
-  var counts = 0
-  for(tweet <- list2){
-    if(tweet.getText.contains(text)) counts += 1
-  }
+  val counts = count((x: Status) => x.getText.contains(text))(list2)
   println("Contains : " + counts)
   
   // 最もRTされたツイートの表示
@@ -59,14 +56,25 @@ object SearchSample extends App {
   
   /**
    * 任意の型のリストの最大値を計算する.
-   * less は関数オブジェクトで, less(x, y) => x < y をみたす.
-   * list は処理対象である.
+   * less 関数オブジェクトで, less(x, y) => x < y をみたす
+   * list 処理対象
    */
   def max[T](less: (T, T) => Boolean)(list: List[T]) : T = {
     if(list.size==0) throw new IllegalArgumentException
     var maxElem = list.head
     for(elem <- list.tail) if(less(maxElem, elem)) maxElem = elem
     maxElem
+  }
+  
+  /**
+   * 条件に当てはまるリストの要素数を計算する.
+   * @param fit 関数オブジェクトで, 当てはめる条件をあらわす
+   * @param 処理対象
+   */
+  def count[T](fit: (T) => Boolean)(list: List[T]) : Int = {
+    var count = 0
+    for(elem <- list) if(fit(elem)) count += 1
+    count
   }
   
 }
