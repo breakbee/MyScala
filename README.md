@@ -1,6 +1,6 @@
-ScalaNote
+MyScala
 ============
 
 Scala's Sample Programs.
 
-require twitter4j
+**require twitter4j**
